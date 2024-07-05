@@ -1,0 +1,58 @@
+table best_movie_by_year_netflix
+	lineageTag: 434634a3-9f09-4a67-b748-0e3165789fd2
+
+	column title
+		dataType: string
+		lineageTag: f223fd55-b69e-4117-ba66-bcd773b32ca9
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column release_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 6219fc42-6de2-442f-bc13-44f54b617f21
+		summarizeBy: sum
+		sourceColumn: release_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column score
+		dataType: double
+		lineageTag: 19a2bcb2-7346-4f1c-8594-bd733ff4f1c9
+		summarizeBy: sum
+		sourceColumn: score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column main_genre
+		dataType: string
+		lineageTag: 9e089e2f-66b4-4c5d-8fb3-fb2e84b3c62e
+		summarizeBy: none
+		sourceColumn: main_genre
+
+		annotation SummarizationSetBy = Automatic
+
+	column main_production
+		dataType: string
+		lineageTag: 7abb6650-833c-43a4-ae57-0f77c1929c8b
+		summarizeBy: none
+		sourceColumn: main_production
+
+		annotation SummarizationSetBy = Automatic
+
+	partition best_movie_by_year_netflix = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Karthik\Desktop\PBI Git integration practise\Dataset\Netflix movies and series\best_movie_by_year_netflix.csv"),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"title", type text}, {"release_year", Int64.Type}, {"score", type number}, {"main_genre", type text}, {"main_production", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

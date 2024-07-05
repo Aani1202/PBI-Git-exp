@@ -1,0 +1,21 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["best_movie_by_year_netflix","best_shows_netflix","raw_titles"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.126.1261.0 (24.02)
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table best_movie_by_year_netflix
+ref table DateTableTemplate_5f262f1f-86e8-48a3-bb5b-55d36fc81c7c
+ref table best_shows_netflix
+ref table raw_titles
+

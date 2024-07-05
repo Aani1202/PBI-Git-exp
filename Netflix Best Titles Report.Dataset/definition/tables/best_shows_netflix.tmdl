@@ -1,0 +1,85 @@
+table best_shows_netflix
+	lineageTag: 4a7b190a-db05-4c11-91f1-148f0edcab7c
+
+	column title
+		dataType: string
+		lineageTag: 212cbeff-5233-451a-89e2-eff9e0e7bc32
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column release_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ea4b215-fcb6-430e-b25a-fc8260be918b
+		summarizeBy: sum
+		sourceColumn: release_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column score
+		dataType: double
+		lineageTag: 58b28f47-5ecb-42d1-9091-4c0ee6876537
+		summarizeBy: sum
+		sourceColumn: score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column number_of_votes
+		dataType: int64
+		formatString: 0
+		lineageTag: 58a17f46-d11a-4552-a035-5d3588983ba2
+		summarizeBy: sum
+		sourceColumn: number_of_votes
+
+		annotation SummarizationSetBy = Automatic
+
+	column duration
+		dataType: int64
+		formatString: 0
+		lineageTag: d46a3965-fed3-4d38-a4c3-75395a472fe6
+		summarizeBy: sum
+		sourceColumn: duration
+
+		annotation SummarizationSetBy = Automatic
+
+	column number_of_seasons
+		dataType: int64
+		formatString: 0
+		lineageTag: 29261881-0a1d-4f5a-b89a-aae554719ea3
+		summarizeBy: sum
+		sourceColumn: number_of_seasons
+
+		annotation SummarizationSetBy = Automatic
+
+	column main_genre
+		dataType: string
+		lineageTag: 69ca40e5-13e4-4f3a-b859-13d6b90f9ebc
+		summarizeBy: none
+		sourceColumn: main_genre
+
+		annotation SummarizationSetBy = Automatic
+
+	column main_production
+		dataType: string
+		lineageTag: 44201fec-c791-4f37-979d-3568d0f8764d
+		summarizeBy: none
+		sourceColumn: main_production
+
+		annotation SummarizationSetBy = Automatic
+
+	partition best_shows_netflix = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Karthik\Desktop\PBI Git integration practise\Dataset\Netflix movies and series\best_shows_netflix.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"title", type text}, {"release_year", Int64.Type}, {"score", type number}, {"number_of_votes", Int64.Type}, {"duration", Int64.Type}, {"number_of_seasons", Int64.Type}, {"main_genre", type text}, {"main_production", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
